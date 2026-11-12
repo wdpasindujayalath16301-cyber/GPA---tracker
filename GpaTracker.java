@@ -45,7 +45,7 @@ public class GpaTracker {
             String university;
             String degree;
             int numOfModules;
-            int credits = 0;
+          
 
             System.out.print("Enter your name: ");
             name = scanner.nextLine();
@@ -64,7 +64,7 @@ public class GpaTracker {
             ArrayList<CourseModule> modules = new ArrayList<>();
             Score obj1 = new Score();
 
-            double total = 0;
+           
 
             for (int i=0; i<numOfModules; i++){
                 int kk = i+1;
@@ -76,22 +76,19 @@ public class GpaTracker {
 
                 while(!obj1.scores.containsKey(moduleResult)){
                     System.out.println("Invalid grade. Please enter a valid grade.");
-                    System.out.println("What is your result for that module : ");
-                    moduleResult = scanner.nextLine().toUpperCase();
+                    System.out.print("What is your result for that module : ");
+                    moduleResult = scanner.nextLine().toUpperCase();}
 
-                    
-                }
-                if (!obj1.scores.containsKey(moduleResult)) {
-                    System.out.println("Invalid grade. Please enter a valid grade.");
-                    i--; 
-                    continue;
-                }
 
                 System.out.print("how many credits for "+moduleName+" :");
                 int moduleCredit = scanner.nextInt();
                 scanner.nextLine();
-
-                credits=credits+moduleCredit;
+                while(moduleCredit<=0){
+                    System.out.println("credit can't be zero or negative");
+                    System.out.print("how many credits for "+moduleName+" :");
+                    moduleCredit = scanner.nextInt();
+                    scanner.nextLine();
+                }
 
                 CourseModule obj2 = new CourseModule();
                 obj2.name = moduleName;
@@ -101,12 +98,7 @@ public class GpaTracker {
                 modules.add(obj2);
             }
 
-            for(CourseModule x: modules){
-                total+=x.credits*obj1.show(x.grade);
-
-            }
-
-            double gpa = total/credits;
+            double gpa = calculateGpa(modules,obj1);
 
             System.out.println();
             System.out.println("*********************************************");
@@ -124,5 +116,19 @@ public class GpaTracker {
         
 
     }
+       static double calculateGpa(ArrayList<CourseModule> modules, Score scorer) {
+
+       double total=0;
+       int credits=0;
+
+       for(CourseModule module:modules){
+        total+=module.credits*scorer.show(module.grade);
+        credits+=module.credits;
+       }
+
+       return  total/credits;
+
+
+   }
     
 }
