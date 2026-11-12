@@ -45,7 +45,8 @@ public class GpaTracker {
             String university;
             String degree;
             
-          
+            ArrayList<CourseModule> allModules = new ArrayList<>();
+             Score obj1 = new Score();
 
             System.out.print("Enter your name: ");
             name = scanner.nextLine();
@@ -55,34 +56,49 @@ public class GpaTracker {
 
             System.out.print("Enter your degree: ");
             degree = scanner.nextLine();
-
-            System.out.print("how many modules: ");
-            int numOfModules = scanner.nextInt();
+          
+            System.out.print("How many semesters: ");
+            int semCount = scanner.nextInt();
             scanner.nextLine();
 
+            while(semCount<=0){
+                System.out.println("can't be zero");
+                System.out.print("How many semesters: ");
+                semCount = scanner.nextInt();
+                scanner.nextLine();
+
+            }
+
+            for(int y=0; y<semCount; y++){
+
+            System.out.println("Semester "+(y+1));
+
+            ArrayList<CourseModule> modules = readModules(scanner, obj1);
+            allModules.addAll(modules);
             
-           
-            Score obj1 = new Score();
+            double semesterGpa = calculateGpa(modules,obj1);
+            System.out.printf("Your semester %d GPA:  %.2f\n",(y+1),semesterGpa);
 
-           
 
-            ArrayList<CourseModule> modules = readModules(scanner, obj1, numOfModules);
+            }
 
-            double gpa = calculateGpa(modules,obj1);
+            double overallGpa = calculateGpa(allModules, obj1);
+
 
             System.out.println();
             System.out.println("*********************************************");
             System.out.println(name);
             System.out.println(degree);
             System.out.println(university);
-            System.out.printf("your final gpa: %.2f\n", gpa);
+            System.out.printf("your final gpa: %.2f\n", overallGpa);
             System.out.println();
             System.out.println("*********************************************");
-
 
         }catch(Exception e){
             System.out.println("Something went wrong..."+e);
         }
+
+    
         
 
     }
@@ -100,10 +116,21 @@ public class GpaTracker {
     }
 
 
-    static ArrayList<CourseModule> readModules(Scanner scanner, Score scorer, int count){
+    static ArrayList<CourseModule> readModules(Scanner scanner, Score scorer){
 
         
              ArrayList<CourseModule> modules = new ArrayList<>();
+
+             System.out.print("how many modules: ");
+             int count = scanner.nextInt();
+             scanner.nextLine();
+             while (count<=0) {
+                System.out.println("can't be zero or negative");
+                System.out.print("how many modules: ");
+                count = scanner.nextInt();
+                scanner.nextLine();
+                
+             }
 
             for (int i=0; i<count; i++){
                 int kk = i+1;
