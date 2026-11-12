@@ -7,6 +7,8 @@ A simple Java console program that calculates your GPA from your module results.
 - Add any number of modules with a grade and credits
 - Rejects invalid grades and credit values
 - Prints a summary with your final GPA
+- can use multiple semesters too
+- And can get a specific semester's GPA or final GPA 
 
 ## How to run
     javac GpaTracker.java
