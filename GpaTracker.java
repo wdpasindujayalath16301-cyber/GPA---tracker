@@ -44,7 +44,7 @@ public class GpaTracker {
             String name;
             String university;
             String degree;
-            int numOfModules;
+            
           
 
             System.out.print("Enter your name: ");
@@ -57,46 +57,16 @@ public class GpaTracker {
             degree = scanner.nextLine();
 
             System.out.print("how many modules: ");
-            numOfModules = scanner.nextInt();
+            int numOfModules = scanner.nextInt();
             scanner.nextLine();
 
             
-            ArrayList<CourseModule> modules = new ArrayList<>();
+           
             Score obj1 = new Score();
 
            
 
-            for (int i=0; i<numOfModules; i++){
-                int kk = i+1;
-                System.out.print("Enter your module "+kk+" name: ");
-                String moduleName = scanner.nextLine();
-
-                System.out.print("What is your result for that module : ");
-                String moduleResult = scanner.nextLine().toUpperCase();
-
-                while(!obj1.scores.containsKey(moduleResult)){
-                    System.out.println("Invalid grade. Please enter a valid grade.");
-                    System.out.print("What is your result for that module : ");
-                    moduleResult = scanner.nextLine().toUpperCase();}
-
-
-                System.out.print("how many credits for "+moduleName+" :");
-                int moduleCredit = scanner.nextInt();
-                scanner.nextLine();
-                while(moduleCredit<=0){
-                    System.out.println("credit can't be zero or negative");
-                    System.out.print("how many credits for "+moduleName+" :");
-                    moduleCredit = scanner.nextInt();
-                    scanner.nextLine();
-                }
-
-                CourseModule obj2 = new CourseModule();
-                obj2.name = moduleName;
-                obj2.credits = moduleCredit;
-                obj2.grade=moduleResult;
-
-                modules.add(obj2);
-            }
+            ArrayList<CourseModule> modules = readModules(scanner, obj1, numOfModules);
 
             double gpa = calculateGpa(modules,obj1);
 
@@ -127,8 +97,47 @@ public class GpaTracker {
        }
 
        return  total/credits;
+    }
 
 
-   }
-    
+    static ArrayList<CourseModule> readModules(Scanner scanner, Score scorer, int count){
+
+        
+             ArrayList<CourseModule> modules = new ArrayList<>();
+
+            for (int i=0; i<count; i++){
+                int kk = i+1;
+                System.out.print("Enter your module "+kk+" name: ");
+                String moduleName = scanner.nextLine();
+
+                System.out.print("What is your result for that module : ");
+                String moduleResult = scanner.nextLine().toUpperCase();
+
+                while(!scorer.scores.containsKey(moduleResult)){
+                    System.out.println("Invalid grade. Please enter a valid grade.");
+                    System.out.print("What is your result for that module : ");
+                    moduleResult = scanner.nextLine().toUpperCase();}
+
+
+                System.out.print("how many credits for "+moduleName+" :");
+                int moduleCredit = scanner.nextInt();
+                scanner.nextLine();
+                while(moduleCredit<=0){
+                    System.out.println("credit can't be zero or negative");
+                    System.out.print("how many credits for "+moduleName+" :");
+                    moduleCredit = scanner.nextInt();
+                    scanner.nextLine();
+                }
+
+                CourseModule obj2 = new CourseModule();
+                obj2.name = moduleName;
+                obj2.credits = moduleCredit;
+                obj2.grade=moduleResult;
+
+                modules.add(obj2);
+            }
+        return modules;        
+
+    }
+
 }
